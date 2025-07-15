@@ -1,32 +1,94 @@
-/* Estilos específicos por estado */
-.curso.electivo:not(.bloqueado):not(.completado) {
-  background-color: #74c69d; /* activo */
+body {
+  font-family: sans-serif;
+  background-color: #f8edeb;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #f8edeb;
+  color: #d6336c;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #c9184a;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: auto;
+  justify-content: start;
+}
+
+.ciclo {
+  background-color: #fff0f0;
+  border: 2px solid #fbb1bd;
+  border-radius: 10px;
+  padding: 0.8rem;
+  min-width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ciclo h2 {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+  color: #d6336c;
+  font-weight: bold;
+}
+
+.curso {
+  background-color: #fec5bb;
+  padding: 0.5rem;
+  margin: 0.3rem 0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  word-wrap: break-word;
+  width: 100%;
+  max-width: 180px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
   color: #000;
 }
 
-.curso.electivo.bloqueado {
-  background-color: #d8f3dc; /* bloqueado */
+/* Curso bloqueado */
+.curso.bloqueado {
+  background-color: #fae1dd;
   color: #000;
 }
 
-.curso.electivo.completado {
-  background-color: #4ea8de; /* completado */
-  color: #fff;
+/* Curso completado */
+.curso.completado {
   text-decoration: line-through;
-}
-
-.curso:not(.electivo):not(.bloqueado):not(.completado) {
-  background-color: #FFAFCC;
-  color: #000;
-}
-
-.curso:not(.electivo).bloqueado {
-  background-color: #FFC8DD;
-  color: #000;
-}
-
-.curso:not(.electivo).completado {
-  background-color: #CDB4DB;
+  background-color: #fcd5ce;
   color: #555;
+}
+
+/* Curso electivo general */
+.curso.electivo {
+  background-color: #e8e8e4;
+}
+
+/* Curso electivo bloqueado */
+.curso.electivo.bloqueado {
+  background-color: #d8f3dc;
+}
+
+/* Curso electivo completado */
+.curso.electivo.completado {
+  background-color: #4ea8de;
+  color: #fff;
   text-decoration: line-through;
 }
