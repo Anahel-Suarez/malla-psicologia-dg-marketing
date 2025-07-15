@@ -4,6 +4,7 @@ fetch("cursos.json")
   .then(res => res.json())
   .then(data => {
     cursos = data;
+    console.log("Cursos cargados:", cursos);
     mostrarMalla();
   });
 
@@ -32,6 +33,7 @@ function mostrarMalla() {
 
       ciclos[ciclo].forEach(curso => {
         const tipo = curso.condicion?.toLowerCase() || "";
+        const esObligatorio = tipo.includes("oblig");
         const esElectivo = tipo.includes("elect");
 
         const div = document.createElement("div");
@@ -39,6 +41,8 @@ function mostrarMalla() {
         div.textContent = curso.nombre;
         div.dataset.codigo = curso.codigo;
         div.dataset.requisitos = JSON.stringify(curso.requisitos || []);
+        div.dataset.tipo = tipo;
+
         if (esElectivo) div.classList.add("electivo");
         if (progreso[curso.codigo]) div.classList.add("completado");
 
@@ -49,6 +53,7 @@ function mostrarMalla() {
     });
 
   actualizarCursos();
+  agregarEventosCurso();
 }
 
 function actualizarCursos() {
@@ -66,15 +71,42 @@ function actualizarCursos() {
       curso.classList.add("bloqueado");
     }
 
-    curso.addEventListener("click", () => {
-      if (curso.classList.contains("bloqueado")) return;
-      curso.classList.toggle("completado");
-      guardarProgreso();
-      actualizarCursos();
-    });
+    const tipo = curso.dataset.tipo;
+    const esElectivo = tipo.includes("elect");
+
+    // Colores
+    if (esElectivo) {
+      curso.style.backgroundColor = curso.classList.contains("completado")
+        ? "#4ea8de"
+        : curso.classList.contains("bloqueado")
+          ? "#d8f3dc"
+          : "#74c69d";
+      curso.style.color = curso.classList.contains("completado") ? "#fff" : "#000";
+    } else {
+      curso.style.backgroundColor = curso.classList.contains("completado")
+        ? "#CDB4DB"
+        : curso.classList.contains("bloqueado")
+          ? "#FFC8DD"
+          : "#FFAFCC";
+      curso.style.color = curso.classList.contains("completado") ? "#555" : "#000";
+    }
+
+    // Tachado si completado
+    curso.style.textDecoration = curso.classList.contains("completado") ? "line-through" : "none";
   });
 
   guardarProgreso();
+}
+
+function agregarEventosCurso() {
+  const cursosDOM = document.querySelectorAll(".curso");
+  cursosDOM.forEach(div => {
+    div.addEventListener("click", () => {
+      if (div.classList.contains("bloqueado")) return;
+      div.classList.toggle("completado");
+      actualizarCursos(); // Recalcula visuales y bloqueo
+    });
+  });
 }
 
 function guardarProgreso() {
@@ -87,8 +119,3 @@ function guardarProgreso() {
   });
   localStorage.setItem("progreso", JSON.stringify(progreso));
 }
-
-document.getElementById("reiniciar")?.addEventListener("click", () => {
-  localStorage.removeItem("progreso");
-  mostrarMalla();
-});
