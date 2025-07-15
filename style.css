@@ -77,17 +77,17 @@ main {
 
 /* Curso electivo general */
 .curso.electivo {
-  background-color: #e8e8e4;
+  background-color: #d8f3dc;
 }
 
 /* Curso electivo bloqueado */
 .curso.electivo.bloqueado {
-  background-color: #d8f3dc;
+  background-color: #e8e8e4;
 }
 
 /* Curso electivo completado */
 .curso.electivo.completado {
-  background-color: #4ea8de;
+  background-color: #ece4db;
   color: #fff;
   text-decoration: line-through;
 }
