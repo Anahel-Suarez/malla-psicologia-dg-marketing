@@ -4,7 +4,6 @@ fetch("cursos.json")
   .then(res => res.json())
   .then(data => {
     cursos = data;
-    console.log("Cursos cargados:", cursos);
     mostrarMalla();
   });
 
@@ -59,7 +58,7 @@ function mostrarMalla() {
 function actualizarCursos() {
   const cursosDOM = document.querySelectorAll(".curso");
   const completados = Array.from(document.querySelectorAll(".curso.completado"))
-                           .map(el => el.dataset.codigo);
+    .map(el => el.dataset.codigo);
 
   cursosDOM.forEach(curso => {
     const requisitos = JSON.parse(curso.dataset.requisitos || "[]");
@@ -71,27 +70,9 @@ function actualizarCursos() {
       curso.classList.add("bloqueado");
     }
 
-    const tipo = curso.dataset.tipo;
-    const esElectivo = tipo.includes("elect");
-
-    // Colores
-    if (esElectivo) {
-      curso.style.backgroundColor = curso.classList.contains("completado")
-        ? "#4ea8de"
-        : curso.classList.contains("bloqueado")
-          ? "#d8f3dc"
-          : "#74c69d";
-      curso.style.color = curso.classList.contains("completado") ? "#fff" : "#000";
-    } else {
-      curso.style.backgroundColor = curso.classList.contains("completado")
-        ? "#CDB4DB"
-        : curso.classList.contains("bloqueado")
-          ? "#FFC8DD"
-          : "#FFAFCC";
-      curso.style.color = curso.classList.contains("completado") ? "#555" : "#000";
-    }
-
-    // Tachado si completado
+    // Evita estilos inline, solo usamos clases
+    curso.style.backgroundColor = "";
+    curso.style.color = "";
     curso.style.textDecoration = curso.classList.contains("completado") ? "line-through" : "none";
   });
 
@@ -104,7 +85,7 @@ function agregarEventosCurso() {
     div.addEventListener("click", () => {
       if (div.classList.contains("bloqueado")) return;
       div.classList.toggle("completado");
-      actualizarCursos(); // Recalcula visuales y bloqueo
+      actualizarCursos();
     });
   });
 }
